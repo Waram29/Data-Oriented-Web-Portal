@@ -1,0 +1,47 @@
+{% extends "base/dashbase.html" %}
+
+{% load static %}
+
+{% block title %}<title>Liste des Rapports | CHU</title>{% endblock title %}
+
+{% block content %}
+    <div class="page-header">
+        <h1 class="page-title">Rapports {{ user.hopital.nom }}</h1>
+    </div>
+    <div class="table-container">
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" class="checkbox"></th>
+                    <th>Année</th>
+                    <th>Fichier</th>
+                    <th>Aperçu</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rapport in rapports %}
+                    <tr class="{% cycle 'row-even' 'row-odd' %}">
+                        <td class="checkbox-cell">
+                            <input type="checkbox" name="selected_reports" value="{{ rapport.id }}">
+                        </td>
+                        <td class="year-cell">{{ rapport.annee }}
+                        </td>
+                        <td class="file-cell">
+                            {{ rapport.titre }}
+                        </td>
+                        <td class="preview-cell">
+                            <a href="{{ rapport.fichier.url}}" class="preview-link"  target="_blank" >
+                                <i class="fa-solid fa-download"></i> Voir le PDF
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="no-data">Aucun rapport disponible</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
+<script src="{% static 'js/script.js' %}"></script>

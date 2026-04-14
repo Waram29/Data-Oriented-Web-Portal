@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+
+{% block title %}<title>Ajouter Service | CHU</title>{% endblock title %}
+
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/base/form.css' %}"> 
+{% endblock extra_css %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb">
+    <a href="#">Accueil</a>
+    <span class="breadcrumb-separator">›</span>
+    <a href="#">Services</a>
+    <span class="breadcrumb-separator">›</span>
+    <span>Ajouter service</span>
+</nav>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Ajouter un service</h1>
+
+</div>
+<div class="form-content">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-content-container">
+            {% csrf_token %}
+
+            <div class="form-container">
+                <!-- Titre -->
+                <div class="form-row">
+                    <label class="form-label" for="titre">Nom <span class="required">*</span></label>
+                    <input type="text" id="titre" name="titre" class="form-input" value="{{ form.titre.value|default:'' }}" required>
+                </div>
+                <div class="form-row">
+                    <label class="form-label" for="decrisption">Description <span class="required">*</span></label>
+                    <input type="text" id="description" name="description" class="form-input" value="{{ form.description.value|default:'' }}" required>
+                </div>
+            </div>
+            <!-- Bouton -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Enregistrer</button>
+            </div>
+            <!-- Erreurs -->
+            {% if form.errors %}
+                <div class="errors" style="color: red; margin-top: 15px; margin-left: 135px;">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p>{{ field }} : {{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock content %}
+

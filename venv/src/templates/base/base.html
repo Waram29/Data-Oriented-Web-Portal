@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/base/icon-chu.png' %}" type="image/png">
+    {% block title %}<title>Portail WEB | CHU</title>{% endblock title %}
+    <link rel="stylesheet" href="{% static 'css/base/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    {% block extra_css %} {% endblock extra_css %} 
+</head>
+<body>
+    <!-- Sidebar -->
+    {% block sidebar %}
+    {% include "include/sidebar.html" %}
+    {% endblock sidebar %}
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                {% comment %} <button class="menu-toggle">☰</button>         {% endcomment %}
+            </div>
+            <div class="header-right">
+                {% comment %} <div class="header-icon"><i class="fas fa-th-large"></i></div> {% endcomment %}
+                <div class="header-icon"><a  href='{% url "logout" %}'><i class="fas fa-right-from-bracket"></i ></a></div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="page-content">
+            {% block content %}
+            {% endblock content %}
+        </main>
+    </div>
+    <script src="{% static 'js/admin_script.js' %}"></script>
+</body>
+</html>

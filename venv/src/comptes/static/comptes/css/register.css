@@ -1,0 +1,208 @@
+
+:root {
+    --bleu-color: #007bff;
+    --bleu-dark-color: #005dc3;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --border-color:#ccc;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.login-card {
+    background-color: rgba(97, 95, 95, 0.582);
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 600px;
+    text-align: center;
+}
+
+/* Logo */
+.login-card .logo {
+    height: 60px;
+    margin-bottom: 2px;
+    border-radius: 20px;
+
+}
+/* Titre */
+.login-card h2 {
+    margin-bottom: 20px;
+    color:var(--light-color);
+    font-size: 2.2em;
+}
+
+/* Inputs */
+.login-card input[type="text"],
+.login-card input[type="email"], 
+.login-card input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+
+.login-card input.password-text[type="password"] , .login-card input.password-text[type="text"] {
+    width: 100%;
+} 
+
+
+.login-card input:focus{
+    outline: none;
+    border-color:var(--bleu-color);
+    transition: all 0.2s ease-in-out;
+}
+
+.select-profil , .select-hopital, .select-service  {
+    width: 50%;
+    padding: 9px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: white;
+    font-size: 14px;
+    color:var(--dark-color);
+    box-sizing: border-box;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'12'%20height%3D'12'%20viewBox%3D'0%200%2012%2012'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M6%209l4-5H2z'%20fill%3D'%23444'%20/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+.select-profil:focus , .select-hopital:focus, .select-service:focus {
+    border-color: var(--bleu-color);
+    outline: none;
+}
+
+.input-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+/* Zone mot de passe + œil (JS à ajouté plus tard) */
+.login-card .password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+
+/* Bouton se connecter */
+.login-card button {
+    background-color: var(--bleu-color);
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    font-size: 18px;
+    width: 50%;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.login-card button:hover {
+    background-color: var(--bleu-dark-color);
+}
+.login-card button a {
+    text-decoration: none;
+    color: white;
+}
+
+
+/* Icone œil */
+/* .password-wrapper {
+    position: relative;
+} */
+.eye-icon {
+    position: absolute;
+    top: 40%;
+    right: 12px;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    background: url('/static/comptes/images/eye-close.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    /* margin-right: 25%; */
+    
+}
+
+.eye-icon.visible {
+    background-image: url('/static/comptes/images/eye-open.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* margin-right: 25%; */
+}
+
+/* Option Mot de passe oublié */
+.options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin-bottom: 1em;
+    color: #babcbe;
+}
+.options a {
+    text-decoration: none;
+    color: white;
+}
+
+.options a:hover{
+    text-decoration: underline;
+}
+
+/* Option d'inscription */
+.inscript-options {
+    font-size: 1.2em;
+    padding: 5px;
+    margin-top: 10px;
+    color: white;
+}
+
+.inscript-options a {
+    text-decoration: none;
+    color:#007bff;
+    font-weight: bold;
+}
+.inscript-options a:hover {
+    text-decoration: underline;
+}
+
+.inscript-options {
+    font-size: 1.2em;
+    padding: 5px;
+    margin-top: 10px;
+    color: white;
+}
+
+
+/* Footer*/
+.footer {
+    font-size: 15px;
+    color: #bdbaba;
+    margin-top: 60px;
+    text-align: center;
+}

@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title> Inscription | CHU</title>
+  <link rel="stylesheet" href="{% static 'comptes/css/login.css' %}">
+  <link rel="icon" href="{% static 'images/base/icon-chu.png' %}" type="image/png">
+</head>
+<style>
+  body {
+  background: url('{% static "comptes/images/bg-hospital.jpg" %}') no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(3px); 
+  }
+</style>
+<body>
+  <div class="login-container">
+       <form method="post" action="{% url 'confirm_code' user_id %}">
+            {% csrf_token %}
+            {% if message %}
+              <p style="color: red; text-align: center; font-weight: 600; font-weight: bold; background-color: #edcdcd; padding: 5px ;border-radius: 5px ;">
+                {{ message }}  
+              </p>
+            {% endif %}
+            {% if messageok %}
+              <p style="color: green; text-align: center;font-weight: 600; background-color: #b0e1cf;  padding: 5px ;border-radius: 3px ; max-width : 97%">
+                {{ messageok }}
+              </p>
+            {% endif %}          
+            <div class="login-card">
+                <div class="inscript-options">
+                    <label >Verifier votre mail pour entrer le code.</label>
+                </div>
+                
+                <input type="text" name="code" placeholder="Code de confirmation" required>
+                <button type="submit">Valider</button>
+                {% if messageok %}
+                  <div class="inscript-options">
+                      <a href="{% url 'connexion' %}">Se connecter</a>
+                  </div>
+                {% endif %}
+                {% if resend %}
+                <div class="inscript-options">
+                    {% comment %} <label>Le code a expiré. </label> {% endcomment %}
+                    <a href="{% url 'resend_code' user_id %}">Renvoyer un nouveau code</a>
+                </div>
+                {% endif %}                
+            </div>
+        </form>
+    </div>
+  <div class="footer">
+    <p>&copy;2025 BI Dashboard – CHU FES / Service Production de l'Information et Statistiques</p>
+  </div>
+  <script src="{% static 'comptes/js/login.js' %}"></script>
+</body>
+</html>

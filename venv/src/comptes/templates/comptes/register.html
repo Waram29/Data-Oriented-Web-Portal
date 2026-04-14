@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription | CHU</title>
+  <link rel="stylesheet" href="{% static 'comptes/css/register.css' %}">
+    <link rel="icon" href="{% static 'images/base/icon-chu.png' %}" type="image/png">
+</head>
+<style>
+  body {
+  background: url('{% static "comptes/images/bg-hospital.jpg" %}') no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(3px);
+  }
+</style>
+<body>
+    <div class="login-container">
+        <form method="POST" action="{% url 'inscription' %}">
+            {% csrf_token %}
+            {% if message %}
+                <p style="color: red; text-align: center; font-weight: 600; font-weight: bold; background-color: #edcdcd; padding: 5px ;border-radius: 5px">{{ message }}</p>
+            {% endif %}
+            <div class="login-card">
+                <img src="{% static 'comptes/images/logo-chu.webp' %}" alt="CHU Logo" class="logo">
+                <h2>Inscription</h2>
+                <div class="input-wrapper">
+                    <input type="text" name="nom" placeholder="Nom" required>
+                    <input type="text" name="prenom" placeholder="Prenom" required>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" name="username" class= "username-input" placeholder="Nom d'utilisateur" required>
+                    <input type="email" name="email" placeholder="Adresse email" required>
+                </div>
+                <div class="input-wrapper">
+                    <select name="profil" class="select-profil" required>
+                        <option value="">-- Sélectionnez un profil --</option>
+                        {% for p in profils %}
+                            <option value="{{ p.id }}">{{ p.nom }}</option>
+                        {% endfor %}
+                    </select>
+                    <select id="hopital" name="hopital" class="select-hopital" required>
+                        <option value="">-- Sélectionner un hôpital --</option>
+                        {% for hopital in hopitaux %}
+                            <option value="{{ hopital.id }}">{{ hopital.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>                
+                <select id="service" name="service" class="select-service" required>
+                    <option value="">-- Sélectionner un hopital d'abord --</option>
+                    {% comment %} {% for service in services %}
+                        <option value="{{ service.id }}">{{ service.nom }}</option>
+                    {% endfor %} {% endcomment %}
+                </select> 
+                <div class="input-wrapper">
+                    <div class="password-wrapper">
+                        <input class="password-text" type="password" name="password1" id="passwordInput" placeholder="Mot de passe" required>
+                        <span id="togglePassword" class="eye-icon"></span>
+                    </div>
+                    <div class="password-wrapper">
+                        <input class="password-text" type="password" name="password2" id="passwordInputConfirm" placeholder="Confirmer le mot de passe " required>
+                        <span id="togglePasswordConfirm" class="eye-icon"> </span>
+                    </div>
+                </div>      
+                <button type="submit">S'inscrire</button>
+                <div class="inscript-options">
+                    <label>Déjà inscrit ?</label>
+                    <a href="{% url 'connexion' %}">Se connecter</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="footer">
+        <p>&copy;2025 BI Dashboard – CHU FES / Service Production de l'Information et Statistiques</p>
+    </div>
+    <script src="{% static 'comptes/js/register.js' %}"></script>
+</body>
+</html>

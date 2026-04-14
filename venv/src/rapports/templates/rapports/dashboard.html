@@ -1,0 +1,26 @@
+{% extends 'base/dashbase.html' %}
+{% load static %}
+
+{% block content %}
+  {% if iframe %}
+    {% if access_granted %}
+        <div class="af-header">
+            <div></div>
+            <h1>{{ iframe.intitule }}</h1>
+            <a class="add-button" id="add_btn-url" href="{% url 'export_pdf' iframe.id %}">
+                <i class="fa-solid fa-file-export"></i>
+                PDF
+            </a>
+        </div>
+        <div class="rapport-container">
+          <iframe src="{{ iframe.url }}" width="1650" height="770"></iframe>
+        </div>
+    {% else %}
+        <div class="rapport-container">
+          <h2 style="color:red;">Vous n'avez pas accès à ce rapport.</h2>
+        </div>
+    {% endif %}
+  {% else %}
+    <p>Aucun rapport trouvé.</p>
+  {% endif %}
+{% endblock %}

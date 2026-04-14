@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion | CHU</title>
+  <link rel="stylesheet" href="{% static 'comptes/css/login.css' %}">
+  <link rel="icon" href="{% static 'images/base/icon-chu.png' %}" type="image/png">
+</head>
+<style>
+  body {
+  background: url('{% static "comptes/images/bg-hospital.jpg" %}') no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(3px);
+  }
+</style>
+<body>
+  <div class="login-container">
+       <form action='{% url "connexion" %}' method="post"> {% comment %} action="{% url 'login' %}" {% endcomment %}
+        {% csrf_token %}
+         {% if message  %}
+            <p style="color: red; text-align: center; font-weight: 600; font-weight: bold; background-color: #edcdcd; padding: 5px ;border-radius: 5px">{{ message }}</p>
+        {% endif %}
+          <div class="login-card">
+            <img src="{% static 'comptes/images/logo-chu.webp' %}" alt="CHU Logo" class="logo">
+            <h2>Connexion</h2>
+            <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+            <div class="password-wrapper">
+              <input type="password" name="password" id="passwordInput" placeholder="Mot de passe" required>
+              <span id="togglePassword" class="eye-icon"> </span>
+            </div>
+            <div class="options">
+              <label><input type="checkbox" name="remember"> Se souvenir de moi</label>
+              <a href="#">Mot de passe oublié ?</a>
+            </div>
+            <button type="submit">Se connecter</a></button>
+            <div class="inscript-options">
+              <label>Pas encore inscrit? </label>
+              <a href="{% url 'inscription' %}">S'inscrire</a>
+            </div>
+          </div>
+      </form>
+    </div>
+  <div class="footer">
+    <p>&copy;2025 BI Dashboard – CHU FES / Service Production de l'Information et Statistiques</p>
+  </div>
+  <script src="{% static 'comptes/js/login.js' %}"></script>
+</body>
+</html>

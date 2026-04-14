@@ -1,0 +1,169 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}
+<title>Gestion des Rapports | CHU</title>
+{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/base/form.css' %}">
+    <link rel="stylesheet" href="{% static 'rapports/css/list_rapport.css' %}">
+    <link rel="stylesheet" href="{% static 'comptes/css/list_add_user.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+ <div class="page-header">
+    <h1 class="page-title">Gestions des Rapports</h1>
+    <nav class="breadcrumb">
+        <a href="#">Accueil</a>
+        <span class="breadcrumb-separator">›</span>
+        <span>Rapports</span>
+    </nav>
+</div>
+
+<div class="main-container">
+
+    <!-- Liste des rapports (à gauche) -->
+    <div class="left-panel">
+
+        <div class="panel-title">
+            Liste des Rapports
+        </div>
+        <div class="search-section">
+            <div class="search-row">
+                <input type="text" class="search-input" placeholder="Rechercher...">
+                <button class="search-button">Rechercher</button>
+            </div>
+        </div>
+        <div class="content">
+            <div class="table-container">
+                <div class="table-scroll-container">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" class="checkbox"></th>
+                                <th>Année</th>
+                                <th>Titre</th>
+                                <th>Hôpital / Service</th>
+                                <th>Aperçu</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rapport in rapports %}
+                            <tr class="{% cycle 'row-even' 'row-odd' %}">
+                                <td class="checkbox-cell">
+                                    <input type="checkbox" name="selected_reports" value="{{ rapport.id }}">
+                                </td>
+                                <td class="year-cell">{{ rapport.annee }}
+                                </td>
+                                <td class="file-cell">
+                                     {{ rapport.titre }}
+                                </td>
+                                <td class="file-cell">
+                                    {{ rapport.hopital.nom }} / {{ rapport.service.nom }}
+                                </td>
+                                <td class="preview-cell">
+                                    <a href="{{ rapport.fichier.url}}" class="preview-link"  target="_blank" >
+                                        <i class="fa-solid fa-download"></i> Voir le PDF
+                                    </a>
+                                </td>
+                                <td class="action-cell">
+                                   <a href="#" class="btn-sm btn-warning">
+                                        <i class="fa fa-edit icon-edit"></i> 
+                                    </a> 
+                                   <a href="{% url 'supprimer_rapport' rapport.id %}" class="btn-sm btn-danger" onclick="return confirm('Confirmer la suppression ?');">  {% comment %} {% url 'modifier_rapport' rapport.id %} {% endcomment %}
+                                        <i class="fa fa-trash icon-delete"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="no-data">Aucun rapport disponible</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulaire (à droite) -->
+    <div class="right-panel">
+        <div class="panel-title">
+            Ajouter un rapport
+        </div>
+
+        <div class="form-content">
+            <form method="post" action="{% url 'add_rapport' %}" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                <div class="form-container">
+
+                    <!-- Titre -->
+                    <div class="form-row">
+                        <label class="form-label" for="titre">Titre <span class="required">*</span></label>
+                        <input type="text" id="titre" name="titre" class="form-input" value="{{ form.titre.value|default:'' }}" required>
+                    </div>
+
+                    <!-- Année -->
+                    <div class="form-row">
+                        <label class="form-label" for="annee">Année <span class="required">*</span></label>
+                        <input type="date" id="annee" name="annee" class="form-input" value="{{ form.annee.value|default:'' }}" required>
+                    </div>
+
+                    <!-- Fichier -->
+                    <div class="form-row">
+                        <label class="form-label" for="fichier">Fichier (PDF) <span class="required">*</span></label>
+                        <input type="file" id="fichier" name="fichier" class="form-input" accept=".pdf" required>
+                    </div>
+
+                    <!-- Hopital -->
+                    <div class="form-row">
+                        <label class="form-label" for="hopital">Hopital <span class="required">*</span></label>
+                        <select id="hopital" name="hopital" class="form-select " required>
+                            <option value="">-- Sélectionner un hôpital --</option>
+                            {% for hopital in hopitaux %}
+                                <option value="{{ hopital.id }}">{{ hopital.nom }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="field-icons">
+                            <span class="icon-a icon-add">+</span>
+                            <span class="icon-a icon-edit">✎</span>
+                            <span class="icon-a icon-delete">×</span>
+                        </div>
+                    </div>
+                    <!-- Service -->
+                    <div class="form-row">
+                        <label class="form-label" for="service">Service <span class="required">*</span></label>
+                         <select id="service" name="service" class="form-select" > 
+                            <option value="">-- Sélectionner un hopital d'abord --</option>
+                        </select>
+                        <div class="field-icons">
+                            <span class="icon-a icon-add">+</span>
+                            <span class="icon-a icon-edit">✎</span>
+                            <span class="icon-a icon-delete">×</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btnu btn btn-success">Ajouter</button>
+                    <!-- Erreurs -->
+                    {% if form.errors %}
+                        <div class="errors" style="color: red; margin-top: 15px;">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <p>{{ field }} : {{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/base/rapport.js' %}"></script>
+{% endblock content %}
+
+

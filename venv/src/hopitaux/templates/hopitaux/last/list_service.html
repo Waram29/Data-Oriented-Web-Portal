@@ -1,0 +1,64 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+
+{% block title %}<title>Liste des service | CHU</title>{% endblock title %}
+{%block extra_css %}
+    <link rel="stylesheet" href="{% static 'hopitaux/css/list_hopital.css' %}">
+{% endblock extra_css %}
+
+
+{% block breadcrumb %}
+<nav class="breadcrumb">
+    <a href="#">Accueil</a>
+    <span class="breadcrumb-separator">›</span>
+    <span>Service</span>
+</nav>
+{% endblock breadcrumb %}
+
+{% block content %}  
+<!-- Page Content -->
+    <div class="page-header">
+        <h1 class="page-title">Service</h1>
+        <a class="add-button" href="{% url 'add_service' %}">
+            <i class="fa-solid fa-users-rectangle"></i>
+            Ajouter
+        </a>
+    </div>
+        <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-row">
+            <input type="text" class="search-input" placeholder="Rechercher...">
+            <button class="search-button">Rechercher</button>
+        </div>      
+    </div>
+    <!-- Data Table -->
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    {% comment %} <th><input type="checkbox" class="checkbox"></th> {% endcomment %}
+                    {% comment %} <th class="id-column"> </th> {% endcomment %}
+                    <th>Nom</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% comment %} <td><input type="checkbox" class="checkbox"></td> {% endcomment %}
+                    {% comment %} <td class="id-column"></td> {% endcomment %}
+                    <td>Service de traitement du cancer</td>
+                    <td>Un service spécialisé dans le diagnostic et le traitement du cancer.</td>
+                </tr>
+                <tr>
+                    {% comment %} <td><input type="checkbox" class="checkbox"></td> {% endcomment %}
+                    {% comment %} <td class="id-column"></td> {% endcomment %}
+                    <td>Service de cardiologie</td>
+                    <td>Un service dédié aux maladies cardiaques et à la santé cardiovasculaire.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock content %}

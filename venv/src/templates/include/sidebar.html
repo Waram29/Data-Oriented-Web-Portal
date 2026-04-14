@@ -1,0 +1,98 @@
+<!-- Sidebar -->
+{% load static %}
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo"><img src="{% static 'images/base/logo-chu.webp' %}" alt="CHU Logo"></div>
+    </div>
+
+    <nav class="nav-menu">
+        <a href='{% url "dashboard" %}' class="nav-item-dash" id="nav-dashboard">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>Dashboard</span>
+        </a>
+        <div class="nav-section-title">
+            Applications
+        </div>
+        
+        <a href="{% url 'list_user' %}" class="nav-item" id="nav-users">
+            <div class="icon"><i class="fas fa-users"></i> </div>
+            Utilisateurs
+        </a>
+        <a href="{% url 'gestion_profil' %}" class="nav-item" id="nav-profiles">
+            <div class="icon"><i class="fa-regular fa-address-card"></i></div>
+            Profils
+        </a>
+        <a href="{% url 'list_iframe' %}" class="nav-item" id="nav-iframes">
+            <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+            Iframes
+        </a>
+        <a href="{% url 'list_rapport' %}" class="nav-item" id="nav-reports">
+            <div class="icon"><i class="fas fa-clipboard-list"></i></div>
+            Rapports
+        </a>
+        <a href="{% url 'list_hopital' %}" class="nav-item" id="nav-hospitals">
+            <div class="icon"><i class="fa-solid fa-circle-h"></i></div>
+            Hôpitaux
+        </a>
+        <a href="{% url 'gestion_service' %}" class="nav-item" id="nav-services">
+            <div class="icon"><i class="fa-solid fa-users-rectangle"></i></div>
+            Services
+        </a>
+    </nav>
+    <div class="user-section">
+        <div class="user-avatar"> <i class="fas fa-user"></i> </div>
+        <span class="user-name">{{ user.username|upper |default:'Admin' }}</span>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sélectionner tous les éléments de navigation
+    const navItems = document.querySelectorAll('.nav-item, .nav-item-dash');
+    
+    // Fonction pour mettre à jour l'élément actif
+    function setActiveItem() {
+        // Retirer la classe active de tous les éléments
+        navItems.forEach(item => item.classList.remove('active'));
+        
+        // Trouver l'élément correspondant à l'URL actuelle
+        const currentPath = window.location.pathname;
+        let activeItem = null;
+        
+        navItems.forEach(item => {
+            if (item.getAttribute('href') === currentPath) {
+                activeItem = item;
+            }
+        });
+        
+        // Si aucun élément ne correspond exactement, essayer une correspondance partielle
+        if (!activeItem) {
+            navItems.forEach(item => {
+                if (currentPath.includes(item.getAttribute('href'))) {
+                    activeItem = item;
+                }
+            });
+        }
+        
+        // Appliquer la classe active à l'élément trouvé
+        if (activeItem) {
+            activeItem.classList.add('active');
+            
+            // Stocker l'élément actif dans sessionStorage
+            sessionStorage.setItem('activeNavItem', activeItem.id);
+        }
+    }
+    
+    // Initialiser l'élément actif au chargement
+    setActiveItem();
+    
+    // Gérer les clics sur les éléments de navigation
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Stocker l'élément cliqué avant la navigation
+            sessionStorage.setItem('activeNavItem', this.id);
+        });
+    });
+});
+</script>

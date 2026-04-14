@@ -1,0 +1,35 @@
+
+{% extends 'base/dashbase.html' %}
+{% load static %}
+{% block content %}
+  {% if iframe %}
+    {% if access_granted %}
+      <div class="af-header">
+          <div></div>
+          <h1>{{ iframe.intitule }}</h1>
+          <a class="add-button" id="printIframeButton" onclick="window.print()" >  {% comment %} href="{% url 'export_pdf' iframe.id %}"  {% endcomment %}
+              <i class="fa-solid fa-file-export"></i> PDF
+          </a>
+      </div>
+      <div class="rapport-container">
+        <iframe src="{{ iframe.url }}" width="1650" height="770" allowfullscreen frameborder="0"></iframe>
+      </div>
+    {% else %}
+      <div class="rapport-container" id="printableArea">
+        <h2 style="color: red;">Vous n'avez pas accès à ce rapport.</h2>
+      </div>
+    {% endif %}
+  {% else %}
+    <h2>Aucun rapport trouvé pour cet hôpital.</h2>
+  {% endif %}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

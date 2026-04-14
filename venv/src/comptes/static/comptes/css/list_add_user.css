@@ -1,0 +1,112 @@
+.main-container {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.left-panel {
+    flex: 2;
+    padding: 20px;
+    margin-top: 3px;
+    min-width: 60%;
+    border-radius: 8px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.right-panel {
+    flex: 1;
+    min-width: 35%;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    max-height: 45%;
+    border: 1px solid #e9ecef;
+}
+
+.form-content {
+    margin: 0;
+    padding: 0;
+}
+
+.form-content-container {
+    padding: 0;
+}
+
+.panel-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 1024px) {
+    .main-container {
+    flex-direction: column;
+    }
+    
+    .left-panel,
+    .right-panel {
+    min-width: 90%;
+    }
+}
+
+
+/* styles pour le scroller */
+.table-scroll-container {
+    height: 500px; /* Ajustez cette hauteur selon vos besoins */
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Garder l'en-tête fixe pendant le scroll */
+.user-table, .report-table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table thead th , .report-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.user-table .service-cell {
+    margin-left: 10%;
+}
+
+.action-cell{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-sm{
+    padding: 7px;
+    margin: 0px;
+}

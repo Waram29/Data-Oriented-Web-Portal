@@ -1,0 +1,138 @@
+{% load static %}
+
+{% block title %}Hôpitaux - BI Analytics{% endblock %}
+
+{% block breadcrumb %}
+    {% comment %} <a href="{% url 'dashboard' %}">Accueil</a> {% endcomment %}
+    <span class="breadcrumb-separator">›</span>
+    <a href="#">Appuserbi</a>
+    <span class="breadcrumb-separator">›</span>
+    <span>Hopitals</span>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1 class="page-title">Hopitals</h1>
+        <a href="{% url 'hospitals:create' %}" class="add-button">
+            <span>+</span>
+            Ajouter hopital
+        </a>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <form method="get" id="search-form">
+            <div class="search-row">
+                <input type="text" 
+                       name="search" 
+                       class="search-input" 
+                       placeholder="Rechercher par nom..." 
+                       value="{{ request.GET.search }}">
+                <button type="submit" class="search-button">Rechercher</button>
+            </div>
+        </form>
+        
+        <form method="post" id="bulk-action-form">
+            {% csrf_token %}
+            <div class="filter-row">
+                <select name="action" class="filter-select" id="bulk-action-select">
+                    <option value="">---------</option>
+                    <option value="delete">Supprimer sélectionnés</option>
+                    <option value="activate">Activer sélectionnés</option>
+                    <option value="deactivate">Désactiver sélectionnés</option>
+                </select>
+                <button type="submit" class="send-button" id="bulk-action-btn" disabled>Envoyer</button>
+                <span class="selection-info" id="selection-info">0 sur {{ hospitals.count }} sélectionné</span>
+            </div>
+        </form>
+    </div>
+
+    <!-- Data Table -->
+    <div class="table-container">
+        {% if hospitals %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" class="checkbox" id="select-all"></th>
+                        <th>
+                            <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}ordering={% if request.GET.ordering == 'id' %}-id{% else %}id{% endif %}" class="sort-link">
+                                ID
+                                {% if request.GET.ordering == 'id' %}↑{% elif request.GET.ordering == '-id' %}↓{% endif %}
+                            </a>
+                            <span class="close-icon" onclick="removeColumn('id')">×</span>
+                        </th>
+                        <th>
+                            <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}ordering={% if request.GET.ordering == 'name' %}-name{% else %}name{% endif %}" class="sort-link">
+                                Nom
+                                {% if request.GET.ordering == 'name' %}↑{% elif request.GET.ordering == '-name' %}↓{% endif %}
+                            </a>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for hospital in hospitals %}
+                    <tr data-id="{{ hospital.id }}">
+                        <td><input type="checkbox" class="checkbox row-checkbox" name="selected_hospitals" value="{{ hospital.id }}"></td>
+                        <td class="id-column">{{ hospital.id }}</td>
+                        <td>
+                            <a href="{% url 'hospitals:detail' hospital.id %}">{{ hospital.name }}</a>
+                        </td>
+                        <td class="actions">
+                            <a href="{% url 'hospitals:edit' hospital.id %}" class="btn-edit" title="Modifier">✏️</a>
+                            <a href="{% url 'hospitals:delete' hospital.id %}" class="btn-delete" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet hôpital ?')">🗑️</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <div class="pagination-container">
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.ordering %}&ordering={{ request.GET.ordering }}{% endif %}" class="page-link">« Premier</a>
+                        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.ordering %}&ordering={{ request.GET.ordering }}{% endif %}" class="page-link">‹ Précédent</a>
+                    {% endif %}
+
+                    <span class="page-info">
+                        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                        ({{ page_obj.paginator.count }} résultat{{ page_obj.paginator.count|pluralize }})
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.ordering %}&ordering={{ request.GET.ordering }}{% endif %}" class="page-link">Suivant ›</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.ordering %}&ordering={{ request.GET.ordering }}{% endif %}" class="page-link">Dernier »</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+        {% else %}
+            <div class="no-data">
+                <p>Aucun hôpital trouvé.</p>
+                {% if request.GET.search %}
+                    <p>Aucun résultat pour "{{ request.GET.search }}".</p>
+                    <a href="{% url 'hospitals:list' %}" class="btn-clear-search">Effacer la recherche</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                    <button type="button" class="close-alert">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/hospitals_list.js' %}"></script>
+{% endblock %}

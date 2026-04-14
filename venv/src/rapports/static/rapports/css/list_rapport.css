@@ -1,0 +1,156 @@
+.report-table {
+    min-width: 100%;
+    border-collapse: collapse;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+}
+
+.report-table thead {
+    background: #e9ecef;
+    border-bottom: 1px solid #dee2e6;
+}
+
+
+.report-table th {
+    text-align: center;
+    padding: 12px 16px;
+    font-weight: 800;
+    color: #495057;
+    font-size: 20px;
+}
+
+.report-table tbody tr {
+    padding: 10px;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s ease;
+}
+
+.report-table tbody tr:hover {
+    background: #f1f3f4;
+}   
+
+.row-even {
+    background: #ffffff;
+}
+
+.row-odd {
+    background: #f8f9fa;
+}
+
+.report-table td {
+    font-size: 16px;
+    padding: 12px 16px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.checkbox-cell {
+    width: 40px;
+    padding-left: 20px;
+}
+
+.checkbox-cell input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.year-cell {
+    width: 50px;
+}
+
+.year-link {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.year-link:hover , .file-link:hover {
+    color: #0052a3;
+    text-decoration: none;
+}
+
+.file-cell {
+    flex: 1;
+    min-width: 50px;
+    text-align: center;
+}
+
+.file-link {
+    color: #0066cc;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+
+.preview-cell {
+    width: 150px;
+    text-align: center;
+    margin-right: 20%;
+}
+
+.preview-link {
+    text-align: center;
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.2s ease;
+
+}
+
+.preview-link:hover {
+    color: #0052a3;
+    text-decoration: underline;
+}
+
+.no-data {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 24px;
+}
+
+
+/* Icone */
+.icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .report-table {
+        font-size: 12px;
+    }
+    
+    .report-table th,
+    .report-table td {
+        padding: 8px 12px;
+    }
+    
+    .file-cell {
+        min-width: 70px;
+    }
+}
+.action-cell{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.icon-delete:hover {
+    color: #bd2130;
+}
+
+
+
+/* Effet hover (optionnel) */
+.icon-edit:hover {
+    color: #495057;
+}
+

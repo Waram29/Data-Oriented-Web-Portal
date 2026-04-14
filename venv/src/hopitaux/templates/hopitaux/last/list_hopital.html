@@ -1,0 +1,83 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+
+{% block title %}<title>Liste des Hôpitaux | CHU</title>{% endblock title %}
+{%block extra_css %}
+    <link rel="stylesheet" href="{% static 'hopitaux/css/list_hopital.css' %}">
+{% endblock extra_css %}
+
+
+{% block breadcrumb %}
+<nav class="breadcrumb">
+    <a href="#">Accueil</a>
+    <span class="breadcrumb-separator">›</span>
+    <span>Hôpitaux</span>
+</nav>
+{% endblock breadcrumb %}
+
+{% block content %}  
+<!-- Page Content -->
+    <div class="page-header">
+        <h1 class="page-title">Hopitaux</h1>
+        <a class="add-button" href="{% url 'add_hopital' %}">
+            <i class="fa-solid fa-house-medical"></i>
+            Ajouter
+        </a>
+    </div>
+        <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-row">
+            <input type="text" class="search-input" placeholder="Rechercher...">
+            <button class="search-button">Rechercher</button>
+        </div>
+        <div class="filter-row">
+            <select class="filter-select">
+                <option>---------</option>
+            </select>
+            <button class="send-button">Envoyer</button>
+            <span class="selection-info">0 sur 5 sélectionné</span> {% comment %}  nombre de rapport depuis la BD à definir  {% endcomment %}
+        </div>       
+    </div>
+    <!-- Data Table -->
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" class="checkbox"></th>
+                    {% comment %} <th class="id-column"> </th> {% endcomment %}
+                    <th>Nom</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    {% comment %} <td class="id-column"></td> {% endcomment %}
+                    <td>Hôpital de l'Oncologie</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    {% comment %} <td class="id-column"></td> {% endcomment %}
+                    <td>Hôpital des Spécialités</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    {% comment %} <td class="id-column"></td> {% endcomment %}
+                    <td>Hôpital Ibn Hassan</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    {% comment %} <td class="id-column"></td> {% endcomment %}
+                    <td>Hôpital Mère et Enfant</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    {% comment %} <td class="id-column"></td> {% endcomment %}
+                    <td>Hôpital Omar Drissi</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock content %}

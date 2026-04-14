@@ -1,0 +1,111 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Gestion des Profils | CHU</title>
+{% endblock title %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/base/form.css' %}">
+    <link rel="stylesheet" href="{% static 'comptes/css/list_user.css' %}">
+    <link rel="stylesheet" href="{% static 'comptes/css/list_add_user.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'hopitaux/css/list_hopital.css' %}"> {% endcomment %}
+{% endblock extra_css %}
+
+{% block breadcrumb %}
+
+{% endblock breadcrumb %}
+
+{% block content %}
+    <div class="page-header">
+        <h1 class="page-title">Gestion des Profils</h1>
+        <nav class="breadcrumb">
+            <a href="#">Accueil</a>
+            <span class="breadcrumb-separator">›</span>
+            <span>Profils </span>
+        </nav>
+    </div>
+
+    <div class="main-container">
+        <!-- Panel gauche - Liste des utilisateurs -->
+        <div class="left-panel">
+            <div class="panel-title">
+                 Liste des profils
+            </div>
+            <!-- Search Section -->
+            <div class="search-section">
+                <div class="search-row">
+                    <input type="text" class="search-input" placeholder="Rechercher...">
+                    <button class="search-button">Rechercher</button>
+                </div>
+            </div>
+
+            <!-- Table des utilisateurs avec scroll -->
+            <div class="content">
+                <div class="table-container">
+                    <div class="table-scroll-container">
+                        <table class="user-table">
+                            <thead>
+                                <tr>
+                                    {% comment %} <th><input type="checkbox" class="checkbox"></th> {% endcomment %}
+                                    {% comment %} <th class="id-column"> </th> {% endcomment %}
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for profil in profils %}
+                                    <tr class="{% cycle 'row-even' 'row-odd' %}">
+                                        {% comment %} <td><input type="checkbox" class="checkbox"></td> {% endcomment %}
+                                        {% comment %} <td class="id-column"></td> {% endcomment %}
+                                        <td class="name-cell"> {{profil.nom}}</td>
+                                        <td class="role-cell">{{profil.description}}.</td>
+                                    </tr>
+                                 {% empty %}
+                                    <tr>
+                                        <td colspan="3" class="no-data">Aucun service trouvé.</td>
+                                    </tr>                                
+                                {%endfor%}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Panel droit - Formulaire d'ajout d'utilisateur -->
+        <div class="right-panel">
+            <div class="panel-title">
+                Ajouter un profil
+            </div>
+            <!-- Formulaire d'ajout -->
+            <div class ="form-content">
+                <form action="{% url 'gestion_profil' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-container">
+                        <!-- Titre -->
+                        <div class="form-row">
+                            <label class="form-label" for="nom">Nom <span class="required">*</span></label>
+                            <input type="text" id="nom" name="nom" class="form-input" value="{{ form.nom.value|default:'' }}" required>
+                        </div>
+                        <div class="form-row">
+                            <label class="form-label" for="decrisption">Description <span class="required">*</span></label>
+                            <input type="text" id="description" name="description" class="form-input" value="{{ form.description.value|default:'' }}" required>
+                        </div>
+                        <button type="submit" class="btnu btn btn-success">Ajouter</button>
+                    </div>
+                    <!-- Erreurs -->
+                    {% if form.errors %}
+                        <div class="errors" style="color: red; margin-top: 15px; margin-left: 135px;">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <p>{{ field }} : {{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock content %}

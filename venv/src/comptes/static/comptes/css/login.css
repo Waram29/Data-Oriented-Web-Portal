@@ -1,0 +1,167 @@
+
+:root {
+  --bleu-color: #007bff;
+  --bleu-dark-color: #005dc3;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+  --border-color:#ccc;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.login-card {
+  background-color: rgba(97, 95, 95, 0.582);
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  text-align: center;
+}
+
+/* Logo */
+.login-card .logo {
+  height: 60px;
+  margin-bottom: 2px;
+  border-radius: 20px;
+
+}
+/* Titre */
+.login-card h2 {
+  margin-bottom: 20px;
+  color:var(--light-color);
+  font-size: 2.2em;
+}
+
+/* Inputs */
+.login-card input[type="text"],
+.login-card input[type="email"], 
+.login-card input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.login-card input:focus{
+    outline: none;
+    border-color:var(--bleu-color);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Zone mot de passe + œil (JS à ajouté plus tard) */
+.login-card .password-wrapper {
+  position: relative;
+}
+
+/* Bouton se connecter */
+.login-card button {
+  background-color: var(--bleu-color);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 18px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.login-card button:hover {
+  background-color: var(--bleu-dark-color);
+}
+.login-card button a {
+  text-decoration: none;
+  color: white;
+}
+
+
+/* Icone œil */
+.password-wrapper {
+  position: relative;
+}
+.eye-icon {
+  position: absolute;
+  top: 40%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  background: url('/static/comptes/images/eye-close.png') no-repeat center center;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.eye-icon.visible {
+  background-image: url('/static/comptes/images/eye-open.png');
+
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Option Mot de passe oublié */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  margin-bottom: 1em;
+  color: #babcbe;
+}
+.options a {
+  text-decoration: none;
+  color: white;
+}
+
+.options a:hover{
+  text-decoration: underline;
+}
+
+/* Option d'inscription */
+.inscript-options {
+  font-size: 1.2em;
+  padding: 5px;
+  margin-top: 10px;
+  color: white;
+}
+
+.inscript-options a {
+  text-decoration: none;
+  color:#007bff;
+  font-weight: bold;
+}
+.inscript-options a:hover {
+  text-decoration: underline;
+}
+
+.inscript-options {
+  font-size: 1.2em;
+  padding: 5px;
+  margin-top: 10px;
+  color: white;
+}
+
+
+/* Footer*/
+.footer {
+  font-size: 15px;
+  color: #bdbaba;
+  margin-top: 60px;
+  text-align: center;
+}

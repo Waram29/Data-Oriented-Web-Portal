@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>BI Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/base/dashboard.css' %}">
+    <link rel="icon" href="{% static 'images/base/icon-chu.png' %}" type="image/png" border-radius="20px">
+    {% block extra_css %} {% endblock extra_css %} 
+    {% block title %}<title>BI Dashboard</title>{% endblock %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {% endcomment %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <nav class="nav-menu">
+                <a href='{% url "dashboard" %}' class="nav-item-dash"> {% comment %}  {% url 'dashboard' %} {% endcomment %}
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Dashboard principal</span>
+                </a>
+                <div class="nav-section-title">Hôpitaux</div>
+                {% for hopital in hopitaux %}
+                <a href="{% url 'dashboard_hopital' hopital.id %}" class="nav-item">
+                    <div class="icon"><i class="fa-solid fa-circle-h"></i></div>
+                    {{ hopital.nom }}
+                </a>
+                {% endfor %}
+                <a href="{% url 'list_rapport_client' %}" class="nav-item">  {% comment %} {% url 'rapports' %}{% endcomment %}
+                    <div class="icon"><i class="fas fa-clipboard-list"></i></div>
+                    Rapports
+                </a>
+            </nav>
+        </div>
+    </div>
+    <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="logo"><img src="{% static 'images/base/logo-chu.webp' %}" alt="CHU Logo"></div>
+                    {% comment %} <button class="menu-toggle" onclick="toggleSidebar()">☰</button>         {% endcomment %}
+                </div>
+                <div class="header-right">
+                    <div class="User-name">
+                        {{ user.username|upper|default:"User" }}
+                        {% comment %} {% if user.username and user.username != "adminchu" %}
+                            {{ user.username|upper|default:"User" }}
+                        {% endif %} {% endcomment %}
+                    </div>
+                    <div class="header-icon"><a href='{% url "logout" %}'><i class="fas fa-right-from-bracket"></i></a></div>
+                    {% comment %} <div class="header-icon"><i class="fas fa-th-large"></i></div> {% endcomment %}
+                </div>
+            </header>
+            {% block content %}{% endblock %}
+    </div>
+
+    <script src="{% static 'js/base/sidebardash.js' %}"></script>
+</body>
+</html>

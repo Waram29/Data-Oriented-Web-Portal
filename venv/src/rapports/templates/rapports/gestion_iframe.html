@@ -1,0 +1,141 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Gestion des Iframes | CHU</title>
+{% endblock title %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/base/form.css' %}">
+    <link rel="stylesheet" href="{% static 'comptes/css/list_user.css' %}">
+    <link rel="stylesheet" href="{% static 'comptes/css/list_add_user.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'hopitaux/css/list_hopital.css' %}"> {% endcomment %}
+{% endblock extra_css %}
+
+
+{% block content %}
+    <div class="page-header">
+        <h1 class="page-title">Gestion des Iframes</h1>
+        <nav class="breadcrumb">
+            <a href="#">Accueil</a>
+            <span class="breadcrumb-separator">›</span>
+            <span>Iframes </span>
+        </nav>
+    </div>
+    <div class="main-container">
+        <!-- Panel gauche - Liste des iframes -->
+        <div class="left-panel">
+            <div class="panel-title">
+                Liste des iframes
+            </div>
+            <!-- Search Section -->
+            <div class="search-section">
+                <div class="search-row">
+                    <input type="text" class="search-input" placeholder="Rechercher...">
+                    <button class="search-button">Rechercher</button>
+                </div>
+                {% comment %} <div class="filter-row">
+                    <select class="filter-select">
+                        <option>---------</option>
+                    </select>
+                    <button class="send-button">Envoyer</button>
+                    <span class="selection-info">0 sur  {{ iframe.count }} sélectionné</span>
+                </div> {% endcomment %}
+            </div>
+            <div class="content">
+                <div class="table-container">
+                    <div class="table-scroll-container">
+                        <table class="user-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="checkbox"></th>
+                                    <th>Intitulé</th>
+                                    <th>Hôpital</th>
+                                    {% comment %} <th>Profil</th> {% endcomment %}
+                                    <th>URL</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for iframe in iframes %}
+                                <tr class="{% cycle 'row-even' 'row-odd' %}">
+                                    <td class="checkbox-cell">
+                                        <input type="checkbox" name="selected_reports" value="{{ iframe.id }}">
+                                    </td>
+                                    <td class=" name-cell">{{ iframe.intitule}} </td>
+                                    <td class="name-cell">{{ iframe.hopital.nom }}</td>
+                                    <td class="name-cell">
+                                        <a href="{{ iframe.url }}" target = "_blank">Lien</a>
+                                    </td>
+                                    <td class="action-cell">
+                                        <a href="{% url 'modifier_iframe' iframe.id %}" class="btn-sm btn-warning">
+                                            <i class="fa fa-edit icon-edit"></i> 
+                                        </a> 
+                                        <a href="{% url 'supprimer_iframe' iframe.id %}" class="btn-sm btn-danger" onclick="return confirm('Confirmer la suppression ?');">
+                                            <i class="fa fa-trash icon-delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td  colspan="5" class="no-data">Aucun iframe disponible</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>                        
+                        </table>
+                    </div>
+                </div>
+            </div>    
+        </div> 
+        
+        <div class="right-panel">
+            <div class="panel-title">
+                Ajouter un iframe
+            </div>
+            <!-- Formulaire d'ajout -->
+            <div class="form-content">
+                <form method="post" enctype="multipart/form-data" action="{% url 'add_iframe' %}">
+                    {% csrf_token %}
+                    <div class="form-container">
+                        <!-- Titre -->
+                        <div class="form-row">
+                            <label class="form-label" for="intitule">Intitulé <span class="required">*</span></label>
+                            <input type="text" id="intitule" name="intitule" class="form-input" value="{{ form.intitule.value|default:'' }}" required>
+                        </div>
+                        <!-- URL de l'iframe -->
+                        <div class="form-row">
+                            <label class="form-label" for="url">URL <span class="required">*</span></label>
+                            <input type="text" id="url" name="url" class="form-input" value="{{ form.url.value|default:'' }}" placeholder="https://app.powerbi.com/..." required>
+                        </div>
+                        <!-- Hôpital -->
+                        <div class="form-row">
+                            <label class="form-label" for="hopital">Hôpital <span class="required">*</span></label>
+                            <select id="hopital" name="hopital" class="form-select" required>
+                                <option value="">Sélectionner un hôpital</option>
+                                {% for hopital in hopitaux %}
+                                    <option value="{{ hopital.id }}" {% if form.hopital.value == hopital.id %}selected{% endif %}>{{ hopital.nom }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="field-icons">
+                                <span class="icon-a icon-add">+</span>
+                                <span class="icon-a icon-edit">✎</span>
+                                <span class="icon-a icon-delete">×</span>
+                            </div>                            
+                        </div>
+                        <button type="submit" class="btnu btn btn-success">Ajouter</button>
+                        <!-- Erreurs -->
+                        {% if form.errors %}
+                            <div class="errors" style="color: red; margin-top: 15px;">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <p>{{ field }} : {{ error }}</p>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>                        
+                </form>
+            </div>
+        </div>
+    </div>
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock content %}

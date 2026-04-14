@@ -1,0 +1,118 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+
+{% block title %}<title>Gestion des Hôpitaux | CHU</title>{% endblock title %}
+{%block extra_css %}
+    {% comment %} <link rel="stylesheet" href="{% static 'hopitaux/css/list_hopital.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/base/form.css' %}">
+    <link rel="stylesheet" href="{% static 'comptes/css/list_user.css' %}">
+    <link rel="stylesheet" href="{% static 'comptes/css/list_add_user.css' %}">
+{% endblock extra_css %}
+
+
+{% block content %}  
+<!-- Page Header -->
+<div class="page-header">
+    <h1 class="page-title">Gestion des Hôpitaux</h1>
+    <nav class="breadcrumb">
+        <a href="#">Accueil</a>
+        <span class="breadcrumb-separator">›</span>
+        <span>Hôpitaux</span>
+    </nav>
+</div>
+
+<!-- Main Container -->
+<div class="main-container">
+    <!-- Section Gauche - Liste des Hôpitaux -->
+    <div class="left-panel">
+        <div class="panel-title">
+             Liste des hôpitaux
+        </div>
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-row">
+                <input type="text" class="search-input" placeholder="Rechercher...">
+                <button class="search-button">Rechercher</button>
+            </div>
+        </div>
+        <!-- Table des utilisateurs avec scroll -->
+        <div class="content">      
+            <div class="table-container">
+                <div class="table-scroll-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;"><input type="checkbox" class="checkbox"></th>
+                                <th>Nom d'hôpital</th>
+                                <th>Nombre de service</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for hopital in hopitaux %}
+                            <tr class="{% cycle 'row-even' 'row-odd' %}">
+                                <td><input type="checkbox" class="checkbox"></td>
+                                <td>{{ hopital.nom }}</td>
+                                <td >{{ hopital.nombre_services}}</td>
+                                <td >
+                                    <a href="#" class="btn-sm btn-warning"> {% comment %} {% url 'modifier_hopital' hopital.id %}  {% endcomment %}
+                                        <i class="fa fa-edit icon-edit"></i> 
+                                    </a> 
+                                    {% comment %} <a href="{% url 'supprimer_iframe' iframe.id %}" class="btn-sm btn-danger" onclick="return confirm('Confirmer la suppression ?');">
+                                        <i class="fa fa-trash icon-delete"></i>
+                                    </a> {% endcomment %}
+                                </td>                                        
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td class="no-data" colspan="2">Aucun hôpital trouvé.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>                            
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Droite - Formulaire d'Ajout -->
+    <div class="right-panel">
+        <div class="panel-title">
+            Ajouter un Hôpital
+        </div>
+        <!-- Formulaire d'ajout -->
+        <div class ="form-content">
+            <form method="post" action="{% url 'add_hopital' %}">
+                {% csrf_token %}
+                <div class="form-container">
+                <div class="form-group">
+                    <label class="form-label" for="nom">
+                        Nom  <span class="required">*</span>
+                    </label>
+                    <input type="text" 
+                        id="nom" 
+                        name="nom" 
+                        class="form-input" 
+                        value="{{ form.nom.value|default:'' }}" 
+                        required>
+                </div>
+                <button type="submit" class="btnu btn btn-success">Ajouter </button>
+                <!-- Erreurs -->
+                {% if form.errors %}
+                    <div class="errors" style="color: red; margin-top: 15px; margin-left: 135px;">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <p>{{ field }} : {{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </form>    
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock content %}
