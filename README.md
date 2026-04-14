@@ -40,10 +40,9 @@ Business Intelligence
 ## Installation and Setup
 Clone the repository:
 ```bash
-
-```
 git clone https://github.com/Waram29/Data-Oriented-Web-Portal.git
 cd Data-Oriented-Web-Portal
+```
 
 ### 1. Create a virtual environment:
 
